@@ -1,0 +1,6 @@
+{
+  "course": "building-an-ahb-lite-soc",
+  "starterVersion": "course-2-v1.0.0",
+  "activities": ["ahb-transfer", "vga-framebuffer", "uart-loopback"],
+  "evidenceSchema": 1
+}
