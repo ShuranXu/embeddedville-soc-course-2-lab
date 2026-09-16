@@ -6,6 +6,8 @@ This public template contains three separate simulator sessions for EmbeddedVill
 
 Use **Open in a codespace** from this template, or use the direct launch button on the matching EmbeddedVille lab page. GitHub creates an unpublished Codespace in the account you are signed in with, so no template-access request or administrator approval is required.
 
+The Codespace pulls a verified, digest-pinned toolchain image instead of compiling Verilator and downloading every tool during startup. A fresh session may still spend a short time pulling the image and installing the editor extensions. If the lower-left status remains on **Opening Remote**, select the **Building codespace** notification to inspect GitHub's creation log. An older Codespace created before this optimization keeps its original container until you preserve your work and rebuild or create a new session.
+
 Your work is initially saved in the Codespace rather than in a GitHub repository. Before course submission, use the VS Code Source Control view to commit your changes and choose **Publish Branch**, then publish to a **private** repository in your own GitHub account. Register that private `owner/repository` on the matching EmbeddedVille lab page.
 
 ## Start a session

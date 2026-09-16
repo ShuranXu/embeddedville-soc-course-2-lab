@@ -1,6 +1,6 @@
 {
   "name": "EmbeddedVille SoC Course 2 Labs",
-  "build": { "dockerfile": "Dockerfile", "context": ".." },
+  "image": "ghcr.io/shuranxu/embeddedville-soc-course-2-lab-devcontainer@sha256:632bdb4fa495760de0c1ff50786b0dafe6eb2b0f1089d7cee45e5c96080f27ab",
   "remoteUser": "vscode",
   "hostRequirements": { "cpus": 2, "memory": "4gb", "storage": "16gb" },
   "forwardPorts": [8000],
