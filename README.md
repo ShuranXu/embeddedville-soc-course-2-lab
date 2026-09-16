@@ -8,7 +8,7 @@ Use **Open in a codespace** from this template, or use the direct launch button 
 
 The Codespace pulls a verified, digest-pinned toolchain image instead of compiling Verilator and downloading every tool during startup. A fresh session may still spend a short time pulling the image and installing the editor extensions. If the lower-left status remains on **Opening Remote**, select the **Building codespace** notification to inspect GitHub's creation log. An older Codespace created before this optimization keeps its original container until you preserve your work and rebuild or create a new session.
 
-Your work is initially saved in the Codespace rather than in a GitHub repository. Before course submission, use the VS Code Source Control view to commit your changes and choose **Publish Branch**, then publish to a **private** repository in your own GitHub account. Register that private `owner/repository` on the matching EmbeddedVille lab page.
+Your work is initially saved in the Codespace rather than in a GitHub repository. Publishing a private repository is optional and useful as your own backup, but it is not required for course submission.
 
 ## Start a session
 
@@ -22,16 +22,13 @@ Run exactly one activity at a time:
 
 The starter is intentionally incomplete. Read [docs/activities.md](docs/activities.md), edit `rtl/course2_soc.sv`, and rerun the matching command. Verilator is the execution authority for all three activities. The framebuffer activity also emits a real PPM frame; the UART activity emits a real serial log. GNU Arm and Renode are pinned in the development container for course-compatible firmware extensions, but neither is claimed as evidence for these three RTL activities.
 
-After a passing run, commit and push your work, then package the matching evidence:
+After a passing run, package the matching evidence:
 
 ```sh
-git add rtl/course2_soc.sv
-git commit -m "Complete Course 2 activity"
-git push
 ./lab package --scenario ahb-transfer
 ```
 
-The ZIP manifest records the activity, starter version, private repository slug, branch/ref, commit SHA, tool versions, source digest, and test result. Upload that ZIP on the matching EmbeddedVille lab page. Staff acceptance is recorded separately; a local pass does not issue completion.
+The private ZIP contains the exact submitted RTL, starter identity, source digest, local result, and supporting evidence. Upload it on the matching EmbeddedVille lab page. EmbeddedVille re-runs protected Verilator checks; an edited local result file cannot approve a lab. A passing protected run approves the lab automatically, so routine administrator review is not required.
 
 ## Codespaces ownership and billing
 

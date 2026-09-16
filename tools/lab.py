@@ -7,7 +7,6 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
-import re
 import shutil
 import subprocess
 import sys
@@ -17,7 +16,8 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build"
 SCENARIOS = ("ahb-transfer", "vga-framebuffer", "uart-loopback")
-STARTER_VERSION = "course-2-v1.0.0"
+STARTER_VERSION = "course-2-v1.1.0"
+SOURCE_FILES = ("rtl/course2_soc.sv", "starter.json")
 
 
 def command(args: list[str], *, cwd: Path = ROOT, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -46,7 +46,7 @@ def doctor() -> int:
 
 def source_digest() -> str:
     digest = hashlib.sha256()
-    for relative in ("rtl/course2_soc.sv", "sim/tb_course2.sv", "tools/lab.py", "starter.json"):
+    for relative in SOURCE_FILES:
         digest.update(relative.encode())
         digest.update((ROOT / relative).read_bytes())
     return digest.hexdigest()
@@ -87,17 +87,6 @@ def test(scenario: str) -> int:
     return 0 if passed else 1
 
 
-def repository_identity() -> tuple[str, str, str]:
-    remote = command(["git", "config", "--get", "remote.origin.url"]).stdout.strip()
-    match = re.search(r"github\.com[/:]([A-Za-z0-9-]+/[A-Za-z0-9._-]+?)(?:\.git)?$", remote)
-    if not match:
-        raise RuntimeError("origin must be a GitHub owner/repository URL")
-    repository = match.group(1)
-    sha = command(["git", "rev-parse", "HEAD"]).stdout.strip()
-    ref = command(["git", "branch", "--show-current"]).stdout.strip() or "detached"
-    return repository, ref, sha
-
-
 def package(scenario: str) -> int:
     output = BUILD / scenario
     result_path = output / "results.json"
@@ -106,28 +95,30 @@ def package(scenario: str) -> int:
     result = json.loads(result_path.read_text(encoding="utf-8"))
     if result.get("status") != "pass" or result.get("sourceDigest") != source_digest():
         raise RuntimeError("the matching test must pass against the current source before packaging")
-    repository, ref, sha = repository_identity()
     manifest = {
-        "schema": 1,
+        "schema": 2,
+        "courseId": "building-an-ahb-lite-soc",
         "activityId": scenario,
         "starterVersion": STARTER_VERSION,
-        "repository": repository,
-        "ref": ref,
-        "commitSha": sha,
         "sourceDigest": result["sourceDigest"],
+        "sourceFiles": list(SOURCE_FILES),
         "toolVersions": result["toolVersions"],
-        "testStatus": result["status"],
+        "localTestStatus": result["status"],
     }
     manifest_path = output / "evidence-manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     packages = BUILD / "packages"
     packages.mkdir(parents=True, exist_ok=True)
-    archive = packages / f"{scenario}-evidence-{sha[:12]}.zip"
-    allowed = [result_path, manifest_path, output / "run.log", output / "trace.vcd", output / "framebuffer.ppm", output / "uart.log"]
+    archive = packages / f"{scenario}-submission-{result['sourceDigest'][:12]}.zip"
+    allowed = [ROOT / path for path in SOURCE_FILES] + [result_path, manifest_path, output / "run.log", output / "trace.vcd", output / "framebuffer.ppm", output / "uart.log"]
     with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as target:
         for path in allowed:
             if path.exists():
-                target.write(path, path.name)
+                if path.is_relative_to(ROOT) and path.parent != output:
+                    name = path.relative_to(ROOT).as_posix()
+                else:
+                    name = f"evidence/{path.name}"
+                target.write(path, name)
     print(archive)
     return 0
 
