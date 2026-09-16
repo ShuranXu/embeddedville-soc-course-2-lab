@@ -1,0 +1,50 @@
+name: Publish lab dev-container
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .devcontainer/Dockerfile
+      - .github/workflows/publish-devcontainer.yml
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: shuranxu/embeddedville-soc-course-2-lab-devcontainer
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check out the lab starter
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Sign in to GitHub Container Registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and publish the pinned toolchain
+        id: publish
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          file: .devcontainer/Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:course-2-v1.0.0
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Verify the published image
+        env:
+          IMAGE_REF: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.publish.outputs.digest }}
+        run: |
+          docker pull "$IMAGE_REF"
+          docker run --rm "$IMAGE_REF" bash -lc 'arm-none-eabi-gcc --version && verilator --version && renode --version'

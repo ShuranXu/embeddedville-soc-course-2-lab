@@ -1,5 +1,9 @@
 FROM ubuntu@sha256:224a1869083a311ef3f13648a154ba79832fbef6364d31493642ca03082da254
 
+LABEL org.opencontainers.image.source="https://github.com/ShuranXu/embeddedville-soc-course-2-lab" \
+      org.opencontainers.image.description="Pinned EmbeddedVille SoC Course 2 lab toolchain" \
+      org.opencontainers.image.licenses="LicenseRef-Course-Use"
+
 ARG DEBIAN_FRONTEND=noninteractive
 ARG GNU_ARM_VERSION=15.3.rel1
 ARG GNU_ARM_SHA256=563bebb2b97d53382b956d6ee1fe61e2cae26699901417234a37df505ef9b5fa
