@@ -1,6 +1,12 @@
 # EmbeddedVille SoC Course 2 lab workspace
 
-This private starter repository contains three separate simulator sessions for enrolled learners. It contains independently written instructions, starter RTL, an open testbench, and evidence packaging tools. It does not contain source-course slides, extracted images, copied diagrams, solutions, hidden tests, credentials, or staff instructions.
+This public template contains three separate simulator sessions for EmbeddedVille SoC Course 2. It contains independently written instructions, starter RTL, an open testbench, and evidence packaging tools. It does not contain source-course slides, extracted images, copied diagrams, solutions, hidden tests, credentials, or staff instructions.
+
+## Launch in your own GitHub account
+
+Use **Open in a codespace** from this template, or use the direct launch button on the matching EmbeddedVille lab page. GitHub creates an unpublished Codespace in the account you are signed in with, so no template-access request or administrator approval is required.
+
+Your work is initially saved in the Codespace rather than in a GitHub repository. Before course submission, use the VS Code Source Control view to commit your changes and choose **Publish Branch**, then publish to a **private** repository in your own GitHub account. Register that private `owner/repository` on the matching EmbeddedVille lab page.
 
 ## Start a session
 
@@ -27,7 +33,7 @@ The ZIP manifest records the activity, starter version, private repository slug,
 
 ## Codespaces ownership and billing
 
-Create your private repository from the approved private template under your own GitHub account. Your account owns the repository, Codespace, compute use, storage use, quota, and billing. Closing the browser tab does not immediately stop the Codespace. Stop it from GitHub when finished. A stopped Codespace can still consume storage. Commit and push before rebuild or deletion; deletion and retention expiry can remove unpushed work.
+The GitHub account that launches the Codespace supplies its quota and is the billing owner unless GitHub explicitly shows a sponsoring organization. Codespaces is not universally free. Closing the browser tab does not immediately stop compute. Stop the Codespace from GitHub when finished; a stopped Codespace can still consume storage. Commit and publish to a private repository before rebuild or deletion because deletion and retention expiry can remove unpushed work.
 
 Useful commands:
 

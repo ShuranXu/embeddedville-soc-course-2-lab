@@ -1,9 +1,9 @@
-# EmbeddedVille enrolled-learner course-use terms
+# EmbeddedVille course-use terms
 
 Copyright © 2026 EmbeddedVille. All rights reserved.
 
-An enrolled learner who has been granted access may copy this private template into a private repository they own, modify it for the enrolled course, submit private evidence for review, and retain one private archival copy.
+An enrolled learner may launch this public starter as a GitHub Codespace, copy it into a private repository they own, modify it for the enrolled course, submit private evidence for review, and retain one private archival copy. No administrator approval is required to use the unmodified starter.
 
-Public sharing, solution redistribution, sublicensing, publishing completed implementations, and commercial use are prohibited. Access does not grant rights to any third-party course materials. This repository contains no Arm Education Kit slides, speaker notes, pictures, or diagrams.
+Publishing completed implementations, solution redistribution, sublicensing, and commercial use are prohibited. The public starter may be linked or used through GitHub's template workflow, but modified solutions must remain private. Access does not grant rights to any third-party course materials. This repository contains no Arm Education Kit slides, speaker notes, pictures, or diagrams.
 
 The tool names “Arm”, “Cortex”, and “AMBA” may appear only where technically necessary. Their respective owners retain their trademarks. No endorsement is implied.
